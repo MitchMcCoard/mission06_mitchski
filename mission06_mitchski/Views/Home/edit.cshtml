@@ -21,8 +21,19 @@
                 <label asp-for="Director">Director</label>
                 <input asp-for="Director" /><br />
 
+
                 <label asp-for="Rating">Rating</label>
-                <input asp-for="Rating" /><br />
+                <select>
+                    <option value="G">G</option>
+                    <option value="PG">PG</option>
+                    <option value="PG-13">PG-13</option>
+                    <option value="R">R</option>
+                </select><br />
+                <!--
+                    Not sure how to do this with the asp tag helpers
+                    Check out this link to learn more https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/working-with-the-dropdownlist-box-and-jquery/using-the-dropdownlist-helper-with-aspnet-mvc
+                -->
+                <!--<input asp-for="Rating" /><br />-->
 
                 <label asp-for="Edited">Edited</label>
                 <input asp-for="Edited" /><br />
