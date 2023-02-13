@@ -29,6 +29,7 @@ namespace mission06_mitchski.Models
                     Director = "Bryan Singer",
                     Rating = "PG-13",
                     Edited = false
+
                 },
                 new Movie
                 {

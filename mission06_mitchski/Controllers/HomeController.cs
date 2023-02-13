@@ -37,10 +37,12 @@ namespace mission06_mitchski.Controllers
         {
 
             //Could validate some data here with a post or something.
-
-            //Post data to the database
-            _blahContext.Add(ar);
-            _blahContext.SaveChanges();
+            if (ModelState.IsValid){
+                //Post data to the database
+                _blahContext.Add(ar);
+                _blahContext.SaveChanges();
+            }
+            
 
             return View("edit");
         }

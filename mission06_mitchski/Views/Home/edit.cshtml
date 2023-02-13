@@ -26,7 +26,7 @@
                 <select asp-for="Rating">
                     <option value="G">G</option>
                     <option value="PG">PG</option>
-                    <option value="PG-13" >PG-13</option>
+                    <option value="PG-13">PG-13</option>
                     <option value="R">R</option>
                 </select><br />
                 <!--
@@ -37,6 +37,14 @@
 
                 <label asp-for="Edited">Edited</label>
                 <input asp-for="Edited" /><br />
+
+                <label asp-for="LentTo">Lent to</label>
+                <input asp-for="LentTo" /><br />
+
+                <label asp-for="Notes">Notes</label>
+                <input asp-for="Notes" /><br />
+
+                <div asp-validation-summary="All"></div>
 
                 <input type="submit" name="Enter" value="Enter" />
             </div>

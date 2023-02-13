@@ -8,7 +8,7 @@ using mission06_mitchski.Models;
 namespace mission06_mitchski.Migrations
 {
     [DbContext(typeof(MovieContexts))]
-    [Migration("20230208195900_Initial")]
+    [Migration("20230213180820_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,18 +24,29 @@ namespace mission06_mitchski.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Category")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Director")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Edited")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("LentTo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(25);
+
                     b.Property<string>("Rating")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Year")
