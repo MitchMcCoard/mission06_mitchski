@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Movie Catalog";
+}
+
+@* @model List<mission06_mitchski.Models.Movie> *@
+
+@model List<Movie>
+
+<table class="table table-bordered table-responsive table-striped table-dark">
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Category</td>
+            <td>Title</td>
+            <td>Year</td>
+            <td>Director</td>
+            <td>Rating</td>
+            <td>Edited</td>
+            <td>Lent to</td>
+            <td>Notes</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model) {
+
+        <tr>
+            <td>@entry.Category.CategoryName</td>
+            <td>@entry.Title</td>
+            <td>@entry.Year</td>
+            <td>@entry.Director</td>
+            <td>@entry.Rating</td>
+            <td>@entry.Edited</td>
+            <td>@entry.LentTo</td>
+            <td>@entry.Notes</td>
+
+            <td><a class="text-light" asp-controller="Home" asp-action="UpdateRecord" asp-route-id="@entry.MovieId">Edit</a></td>
+            <td><a class="text-light" asp-controller="Home" asp-action="Delete" asp-route-id="@entry.MovieId">Delete</a></td>
+        </tr>
+
+        }
+
+    </tbody>
+
+</table>

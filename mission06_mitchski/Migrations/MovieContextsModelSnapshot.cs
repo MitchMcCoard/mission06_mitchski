@@ -15,15 +15,65 @@ namespace mission06_mitchski.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("mission06_mitchski.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("mission06_mitchski.Models.Movie", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +102,15 @@ namespace mission06_mitchski.Migrations
 
                     b.HasKey("MovieId");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Movies");
 
                     b.HasData(
                         new
                         {
                             MovieId = 1,
-                            Category = "Action/Adventure",
+                            CategoryID = 1,
                             Director = "Bryan Singer",
                             Edited = false,
                             Rating = "PG-13",
@@ -68,7 +120,7 @@ namespace mission06_mitchski.Migrations
                         new
                         {
                             MovieId = 2,
-                            Category = "Action/Adventure",
+                            CategoryID = 1,
                             Director = "Richard Marquand",
                             Edited = false,
                             Rating = "PG",
@@ -78,13 +130,22 @@ namespace mission06_mitchski.Migrations
                         new
                         {
                             MovieId = 3,
-                            Category = "Comedy",
+                            CategoryID = 2,
                             Director = "Robert Zemeckis",
                             Edited = false,
                             Rating = "PG",
                             Title = "Back to the Future",
                             Year = 1985
                         });
+                });
+
+            modelBuilder.Entity("mission06_mitchski.Models.Movie", b =>
+                {
+                    b.HasOne("mission06_mitchski.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

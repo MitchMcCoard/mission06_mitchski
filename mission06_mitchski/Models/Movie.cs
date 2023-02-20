@@ -12,10 +12,7 @@ namespace mission06_mitchski.Models
         [Required]
         public int MovieId { get; set; }
 
-        [Required]
-        public string Category { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Please provide a movie title.")]
         public string Title { get; set; }
 
         [Required]
@@ -33,5 +30,11 @@ namespace mission06_mitchski.Models
 
         [StringLength(25)]
         public string Notes { get; set; }
+
+
+        //Build Foreign Key relationship
+        [Required]
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
     }
 }

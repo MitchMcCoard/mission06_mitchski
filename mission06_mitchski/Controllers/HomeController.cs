@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using mission06_mitchski.Models;
 using System;
@@ -11,14 +12,12 @@ namespace mission06_mitchski.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private MovieContexts _blahContext { get; set; }
+        private MovieContexts _mvContext { get; set; }
 
         //Constructor
-        public HomeController(ILogger<HomeController> logger, MovieContexts x)
+        public HomeController( MovieContexts x)
         {
-            _logger = logger;
-            _blahContext = x;
+            _mvContext = x;
         }
 
         public IActionResult Index()
@@ -39,24 +38,89 @@ namespace mission06_mitchski.Controllers
             //Could validate some data here with a post or something.
             if (ModelState.IsValid){
                 //Post data to the database
-                _blahContext.Add(ar);
-                _blahContext.SaveChanges();
+                _mvContext.Add(ar);
+                _mvContext.SaveChanges();
+                return View("viewMovies"); // maybe make a confirmatin page?
             }
-            
 
-            return View("edit");
+
+            ViewBag.Categories = _mvContext.Categories.ToList();
+
+            return View("edit", ar);
         }
 
         [HttpGet]
         public IActionResult Edit()
         {
+            //var categories = _mvContext.Categories.ToList();
+
+            ViewBag.Categories = _mvContext.Categories.ToList();
+
+
+            //return View("edit", categories);
             return View("edit");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public IActionResult UpdateRecord(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            //Pull the category list to populat selectoption
+            ViewBag.Categories = _mvContext.Categories.ToList();
+
+            //Find the record which you want to edit, and pass the stored data
+            var recordToUpdate = _mvContext.Movies.Single(x => x.MovieId == id);
+
+            return View("edit", recordToUpdate);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRecord(Movie updatedRecord)
+        {
+            
+            //Maybe validate here before updating?
+            _mvContext.Update(updatedRecord);
+            _mvContext.SaveChanges();
+
+
+
+            return RedirectToAction("Catalog");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            
+            var movieToDelete = _mvContext.Movies.Single(x => x.MovieId == id);
+
+            return View(movieToDelete);
+        }
+
+
+        [HttpPost]
+        public IActionResult Delete(Movie DeletedMovie)
+        {
+            _mvContext.Movies.Remove(DeletedMovie);
+            _mvContext.SaveChanges();
+
+            return RedirectToAction("Catalog");
+        }
+
+        public IActionResult Catalog ()
+        {
+            var movies = _mvContext.Movies
+                .Include(x => x.Category)
+                .OrderBy(x => x.Category)
+                .ToList();
+            
+            
+            
+            //An example of filtering and ordering
+
+            //var movies = _mvContext.Movies
+            //    .Where(x => x.Rating != "R")
+            //    .OrderBy(x => x.Category)
+            //    .ToList();
+            return View("viewMovies", movies);
         }
     }
 }
