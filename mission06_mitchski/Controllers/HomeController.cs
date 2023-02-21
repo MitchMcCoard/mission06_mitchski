@@ -40,7 +40,13 @@ namespace mission06_mitchski.Controllers
                 //Post data to the database
                 _mvContext.Add(ar);
                 _mvContext.SaveChanges();
-                return View("viewMovies"); // maybe make a confirmatin page?
+
+                //Now to view the movies you need to pull them from the database
+                var movies = _mvContext.Movies
+                    .Include(x => x.Category)
+                    .OrderBy(x => x.Category)
+                    .ToList();
+                return View("viewMovies", movies); // maybe make a confirmatin page?
             }
 
 
@@ -50,7 +56,7 @@ namespace mission06_mitchski.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit() //Add a new record (i.e. edit the catalog)
         {
             //var categories = _mvContext.Categories.ToList();
 
@@ -58,7 +64,7 @@ namespace mission06_mitchski.Controllers
 
 
             //return View("edit", categories);
-            return View("edit");
+            return View("edit", new Movie());
         }
 
         [HttpGet]
